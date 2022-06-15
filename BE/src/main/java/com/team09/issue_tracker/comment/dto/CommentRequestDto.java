@@ -1,11 +1,11 @@
 package com.team09.issue_tracker.comment.dto;
 
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 
-@Setter
 @Getter
-public class CommentCreateRequestDto {
+@NoArgsConstructor
+public class CommentRequestDto {
 
 	private String content;
 

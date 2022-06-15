@@ -5,4 +5,4 @@
 - [Table create SQL](./docs/issue_tracker_table_create.sql)
 
 ## API 목록
-
+- [API Docs](https://documenter.getpostman.com/view/20452796/UzBiNobv)
