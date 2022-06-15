@@ -1,5 +1,6 @@
 package com.team09.issue_tracker.label;
 
+import com.team09.issue_tracker.common.CommonResponseDto;
 import com.team09.issue_tracker.label.dto.LabelRequestDto;
 import com.team09.issue_tracker.label.dto.LabelSelectResponseDto;
 import org.springframework.http.ResponseEntity;
@@ -20,12 +21,12 @@ public class LabelController {
 	}
 
 	@PostMapping
-	public ResponseEntity<> create(@RequestBody final LabelRequestDto labelRequestDto) {
+	public ResponseEntity<CommonResponseDto> create(@RequestBody final LabelRequestDto labelRequestDto) {
 		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping
-	public ResponseEntity<> update(@RequestBody final LabelRequestDto labelRequestDto){
+	public ResponseEntity<CommonResponseDto> update(@RequestBody final LabelRequestDto labelRequestDto){
 		return ResponseEntity.ok().build();
 	}
 }
