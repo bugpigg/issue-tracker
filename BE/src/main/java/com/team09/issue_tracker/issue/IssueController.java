@@ -42,13 +42,13 @@ public class IssueController {
 
 	}
 
-	@GetMapping
+	@GetMapping(":type=title")
 	public void findByTitle(@RequestParam final String title) {
 
 	}
 
-	@GetMapping
-	public void findBySearchCondition(@ModelAttribute final String dto) {
+	@GetMapping(":type=filter")
+	public void findBySearchCondition(@ModelAttribute final String issueSearchDto) {
 
 	}
 
