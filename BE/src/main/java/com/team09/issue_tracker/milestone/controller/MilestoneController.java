@@ -1,5 +1,6 @@
 package com.team09.issue_tracker.milestone.controller;
 
+import com.team09.issue_tracker.milestone.MilestoneRequestDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;

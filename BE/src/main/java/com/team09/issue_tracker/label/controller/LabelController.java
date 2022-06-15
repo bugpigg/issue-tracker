@@ -1,5 +1,6 @@
 package com.team09.issue_tracker.label.controller;
 
+import com.team09.issue_tracker.label.LabelRequestDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
