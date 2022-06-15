@@ -1,4 +1,4 @@
-package com.team09.issue_tracker.image.controller;
+package com.team09.issue_tracker.image;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
