@@ -4,6 +4,7 @@ import com.team09.issue_tracker.comment.Comment;
 import com.team09.issue_tracker.common.BaseTimeEntity;
 import com.team09.issue_tracker.member.Member;
 import com.team09.issue_tracker.milestone.Milestone;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -17,6 +18,7 @@ public class Issue extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "issue_id")
 	private Long id;
 
 	private String title;
@@ -26,11 +28,11 @@ public class Issue extends BaseTimeEntity {
 	private boolean isOpened;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "milestone_id")
 	private Milestone milestone;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "comment_id")
 	private Comment comment;
 
 	@ManyToOne(fetch = FetchType.LAZY)

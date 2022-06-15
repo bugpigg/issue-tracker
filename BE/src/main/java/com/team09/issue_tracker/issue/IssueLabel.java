@@ -1,8 +1,6 @@
-package com.team09.issue_tracker.comment;
+package com.team09.issue_tracker.issue;
 
-import com.team09.issue_tracker.common.BaseTimeEntity;
-import com.team09.issue_tracker.issue.Issue;
-import com.team09.issue_tracker.member.Member;
+import com.team09.issue_tracker.label.Label;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,21 +11,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Comment extends BaseTimeEntity {
+public class IssueLabel {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "comment_id")
+	@Column(name = "issue_label_id")
 	private Long id;
-
-	private String content;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "member_id")
-	private Member writer;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "issue_id")
 	private Issue issue;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "label_id")
+	private Label label;
 }
