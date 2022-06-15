@@ -1,10 +1,6 @@
 package com.team09.issue_tracker.issue.domain;
 
-import com.team09.issue_tracker.comment.domain.Comment;
-import com.team09.issue_tracker.common.BaseTimeEntity;
 import com.team09.issue_tracker.member.domain.Member;
-import com.team09.issue_tracker.milestone.domain.Milestone;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,28 +10,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Issue extends BaseTimeEntity {
+public class IssueAssignee {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String title;
-
-	private String content;
-
-	private boolean isOpened;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
-	private Milestone milestone;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
-	private Comment comment;
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id")
 	private Member writer;
-	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id")
+	private Issue issue;
+
 }
