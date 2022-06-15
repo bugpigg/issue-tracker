@@ -1,6 +1,8 @@
 package com.team09.issue_tracker.label;
 
 import com.team09.issue_tracker.label.dto.LabelRequestDto;
+import com.team09.issue_tracker.label.dto.LabelSelectResponseDto;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,17 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class LabelController {
 
 	@GetMapping
-	public void select() {
-
+	public ResponseEntity<LabelSelectResponseDto> select() {
+		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping
-	public void create(@RequestBody final LabelRequestDto labelRequestDto) {
-
+	public ResponseEntity<> create(@RequestBody final LabelRequestDto labelRequestDto) {
+		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping
-	public void update(@RequestBody final LabelRequestDto labelRequestDto){
-
+	public ResponseEntity<> update(@RequestBody final LabelRequestDto labelRequestDto){
+		return ResponseEntity.ok().build();
 	}
 }

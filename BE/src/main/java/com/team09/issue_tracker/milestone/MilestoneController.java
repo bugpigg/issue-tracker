@@ -1,6 +1,9 @@
 package com.team09.issue_tracker.milestone;
 
 import com.team09.issue_tracker.milestone.dto.MilestoneRequestDto;
+import com.team09.issue_tracker.milestone.dto.MilestoneSelectResponseDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,17 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class MilestoneController {
 
 	@GetMapping
-	public void select() {
+	public ResponseEntity<MilestoneSelectResponseDto> select() {
 
+		return ResponseEntity.ok().build();
 	}
 
 	@PostMapping
-	public void create(@RequestBody final MilestoneRequestDto milestoneRequestDto) {
-
+	public ResponseEntity<> create(@RequestBody final MilestoneRequestDto milestoneRequestDto) {
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 	@PatchMapping("/{id}")
-	public void update(@RequestBody final MilestoneRequestDto milestoneRequestDto) {
-
+	public ResponseEntity<> update(@RequestBody final MilestoneRequestDto milestoneRequestDto) {
+		return ResponseEntity.ok().build();
 	}
 }
