@@ -1,4 +1,4 @@
-package com.team09.issue_tracker.comment.controller;
+package com.team09.issue_tracker.comment.dto;
 
 import lombok.Getter;
 import lombok.Setter;

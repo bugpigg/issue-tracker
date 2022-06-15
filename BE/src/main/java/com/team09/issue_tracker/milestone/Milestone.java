@@ -1,4 +1,4 @@
-package com.team09.issue_tracker.milestone.domain;
+package com.team09.issue_tracker.milestone;
 
 import java.time.LocalDate;
 import javax.persistence.Entity;

@@ -1,8 +1,8 @@
-package com.team09.issue_tracker.issue.controller;
+package com.team09.issue_tracker.issue.dto;
 
-import com.team09.issue_tracker.label.domain.Label;
-import com.team09.issue_tracker.member.domain.Member;
-import com.team09.issue_tracker.milestone.domain.Milestone;
+import com.team09.issue_tracker.label.Label;
+import com.team09.issue_tracker.member.Member;
+import com.team09.issue_tracker.milestone.Milestone;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;

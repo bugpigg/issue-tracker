@@ -1,10 +1,9 @@
-package com.team09.issue_tracker.issue.domain;
+package com.team09.issue_tracker.issue;
 
-import com.team09.issue_tracker.comment.domain.Comment;
+import com.team09.issue_tracker.comment.Comment;
 import com.team09.issue_tracker.common.BaseTimeEntity;
-import com.team09.issue_tracker.member.domain.Member;
-import com.team09.issue_tracker.milestone.domain.Milestone;
-import java.util.List;
+import com.team09.issue_tracker.member.Member;
+import com.team09.issue_tracker.milestone.Milestone;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;

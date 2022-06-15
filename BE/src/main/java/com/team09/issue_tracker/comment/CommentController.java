@@ -1,5 +1,6 @@
-package com.team09.issue_tracker.comment.controller;
+package com.team09.issue_tracker.comment;
 
+import com.team09.issue_tracker.comment.dto.CommentCreateRequestDto;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;

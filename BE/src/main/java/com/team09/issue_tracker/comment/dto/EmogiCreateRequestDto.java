@@ -1,4 +1,4 @@
-package com.team09.issue_tracker.emogi.controller;
+package com.team09.issue_tracker.comment.dto;
 
 public class EmogiCreateRequestDto {
 

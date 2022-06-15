@@ -1,6 +1,6 @@
-package com.team09.issue_tracker.issue.domain;
+package com.team09.issue_tracker.issue;
 
-import com.team09.issue_tracker.member.domain.Member;
+import com.team09.issue_tracker.member.Member;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;

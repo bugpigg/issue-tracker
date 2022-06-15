@@ -1,4 +1,4 @@
-package com.team09.issue_tracker.label;
+package com.team09.issue_tracker.label.dto;
 
 import lombok.Getter;
 import lombok.Setter;

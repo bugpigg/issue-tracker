@@ -1,11 +1,8 @@
-package com.team09.issue_tracker.comment.domain;
+package com.team09.issue_tracker.comment;
 
 import com.team09.issue_tracker.common.BaseTimeEntity;
-import com.team09.issue_tracker.emogi.domain.Emogi;
-import com.team09.issue_tracker.issue.domain.Issue;
-import com.team09.issue_tracker.member.domain.Member;
-import java.util.List;
-import javax.persistence.Column;
+import com.team09.issue_tracker.issue.Issue;
+import com.team09.issue_tracker.member.Member;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class Comment extends BaseTimeEntity {

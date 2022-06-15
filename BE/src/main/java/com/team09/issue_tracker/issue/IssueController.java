@@ -1,5 +1,7 @@
-package com.team09.issue_tracker.issue.controller;
+package com.team09.issue_tracker.issue;
 
+import com.team09.issue_tracker.issue.dto.IssueCreateRequestDto;
+import com.team09.issue_tracker.issue.dto.IssueUpdateAllRequestDto;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;

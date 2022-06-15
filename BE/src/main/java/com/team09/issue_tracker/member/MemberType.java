@@ -1,4 +1,4 @@
-package com.team09.issue_tracker.member.domain;
+package com.team09.issue_tracker.member;
 
 public enum MemberType {
 

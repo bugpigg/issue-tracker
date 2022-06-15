@@ -1,6 +1,6 @@
-package com.team09.issue_tracker.label.controller;
+package com.team09.issue_tracker.milestone;
 
-import com.team09.issue_tracker.label.LabelRequestDto;
+import com.team09.issue_tracker.milestone.dto.MilestoneRequestDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/labels")
-public class LabelController {
+@RequestMapping("/milestones")
+public class MilestoneController {
 
 	@GetMapping
 	public void select() {
@@ -18,12 +18,12 @@ public class LabelController {
 	}
 
 	@PostMapping
-	public void create(@RequestBody final LabelRequestDto labelRequestDto) {
+	public void create(@RequestBody final MilestoneRequestDto milestoneRequestDto) {
 
 	}
 
-	@PatchMapping
-	public void update(@RequestBody final LabelRequestDto labelRequestDto){
+	@PatchMapping("/{id}")
+	public void update(@RequestBody final MilestoneRequestDto milestoneRequestDto) {
 
 	}
 }

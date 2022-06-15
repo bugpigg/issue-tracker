@@ -1,4 +1,4 @@
-package com.team09.issue_tracker.label.domain;
+package com.team09.issue_tracker.label;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
