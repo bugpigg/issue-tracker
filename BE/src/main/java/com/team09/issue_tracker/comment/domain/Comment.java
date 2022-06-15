@@ -5,7 +5,9 @@ import com.team09.issue_tracker.emogi.domain.Emogi;
 import com.team09.issue_tracker.issue.domain.Issue;
 import com.team09.issue_tracker.member.domain.Member;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,14 +24,12 @@ public class Comment extends BaseTimeEntity {
 
 	private String content;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "writer_id")
-	private Member member;
+	private Member writer;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "issue_id")
 	private Issue issue;
 
-	@OneToMany(mappedBy = "Comment")
-	private List<Emogi> emogis;
 }
