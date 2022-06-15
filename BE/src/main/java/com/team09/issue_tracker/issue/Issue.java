@@ -36,7 +36,7 @@ public class Issue extends BaseTimeEntity {
 	private Comment comment;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "member_id")
 	private Member writer;
 	
 }
