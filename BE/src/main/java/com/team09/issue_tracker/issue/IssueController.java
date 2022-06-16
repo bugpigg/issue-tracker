@@ -48,20 +48,20 @@ public class IssueController {
 		return ResponseEntity.ok(new CommonResponseDto());
 	}
 
-	@GetMapping(":type=title")
+	@GetMapping(";type=title")
 	public ResponseEntity<List<IssueFindAllResponseDto>> findByTitle(
 		@RequestParam final String title) {
 		return ResponseEntity.ok(Collections.singletonList(new IssueFindAllResponseDto()));
 	}
 
-	@GetMapping(":type=filter")
+	@GetMapping(";type=filter")
 	public ResponseEntity<List<IssueFindAllResponseDto>> findBySearchCondition(
 		@ModelAttribute final String issueSearchDto) {
 		return ResponseEntity.ok(Collections.singletonList(new IssueFindAllResponseDto()));
 	}
 
 	@PatchMapping
-	public ResponseEntity<CommonResponseDto> updateAllState(@RequestParam final Boolean setClose,
+	public ResponseEntity<CommonResponseDto> updateAllState(@RequestParam final Boolean close,
 		@RequestBody final IssueCreateAndUpdateRequestDto issueUpdateAllRequestDto) {
 		return ResponseEntity.ok(new CommonResponseDto());
 	}
