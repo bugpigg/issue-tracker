@@ -19,6 +19,6 @@ public class Milestone {
 
 	private String description;
 
-	private LocalDate completion_date;
+	private LocalDate completionDate;
 
 }
