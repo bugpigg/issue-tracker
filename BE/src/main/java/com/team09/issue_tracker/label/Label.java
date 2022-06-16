@@ -18,7 +18,7 @@ public class Label {
 
 	private String description;
 
-	private boolean idDarkMode;
+	private boolean isDarkMode;
 
 	private String backgroundColor;
 
