@@ -18,4 +18,9 @@ public class MemberService {
 		return memberRepository.save(resultMember);
 	}
 
+	public Long findIdFromUserId(String userId) {
+		Member member = memberRepository.findByUserId(userId)
+			.orElseThrow(() -> new RuntimeException("userId에 해당하는 멤버가 존재하지 않습니다!!"));
+		return member.getId();
+	}
 }
