@@ -31,6 +31,9 @@ spring:
           charSet: UTF-8
         dialect: org.hibernate.dialect.MySQL8Dialect
         open-in-view: false
+  redis:
+    host: localhost
+    port: 6379
 ---
 # log-group
 spring:
