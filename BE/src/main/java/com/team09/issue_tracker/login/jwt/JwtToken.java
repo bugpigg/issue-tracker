@@ -12,7 +12,7 @@ public class JwtToken {
 	private final String accessToken;
 	private final String refreshToken;
 
-	JwtToken(Key key, long accessExpireTime, long refreshExpireTime, Long id, String userName) {
+	JwtToken(Key key, long accessExpireTime, long refreshExpireTime, String id, String userName) {
 		this.accessToken = createAccessToken(key, getExpireTime(accessExpireTime), id, userName);
 		this.refreshToken = createRefreshToken(key, getExpireTime(refreshExpireTime));
 	}
@@ -25,7 +25,7 @@ public class JwtToken {
 		return (new Date()).getTime();
 	}
 
-	private String createAccessToken(Key key, Date accessTokenExpireIn, Long id, String userName) {
+	private String createAccessToken(Key key, Date accessTokenExpireIn, String id, String userName) {
 		return Jwts.builder()
 			.setIssuer(userName)
 			.setExpiration(accessTokenExpireIn)

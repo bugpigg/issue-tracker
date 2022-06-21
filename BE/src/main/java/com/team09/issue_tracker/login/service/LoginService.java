@@ -36,7 +36,7 @@ public class LoginService {
 
 		Member member = memberService.saveOrUpdate(userProfile);
 
-		JwtToken token = tokenProvider.createJwtToken(member.getId(), member.getName());
+		JwtToken token = tokenProvider.createJwtToken(member.getUserId(), member.getName());
 		redisService.setValue(String.valueOf(member.getId()), token.getRefreshToken());
 
 		return LoginResponseDto.builder()

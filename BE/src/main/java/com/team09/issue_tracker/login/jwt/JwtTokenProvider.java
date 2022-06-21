@@ -24,7 +24,7 @@ public class JwtTokenProvider {
 		this.refreshTokenExpireTime = refreshTokenExpireTime;
 	}
 
-	public JwtToken createJwtToken(Long id, String userName) {
+	public JwtToken createJwtToken(String id, String userName) {
 		return new JwtToken(key, accessTokenExpireTime, refreshTokenExpireTime, id, userName);
 	}
 
@@ -32,7 +32,7 @@ public class JwtTokenProvider {
 		return parseClaims(token) != null;
 	}
 
-	private Claims parseClaims(String token) {
+	public Claims parseClaims(String token) {
 		try {
 			return Jwts.parserBuilder()
 				.setSigningKey(key)
