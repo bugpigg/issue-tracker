@@ -9,6 +9,7 @@ import com.team09.issue_tracker.login.oauth.token.OauthAccessTokenProvider;
 import com.team09.issue_tracker.login.oauth.token.OauthAccessTokenResponse;
 import com.team09.issue_tracker.login.oauth.user.OauthUserProfile;
 import com.team09.issue_tracker.login.oauth.user.OauthUserProfileProvider;
+import com.team09.issue_tracker.login.redis.RedisService;
 import com.team09.issue_tracker.member.Member;
 import com.team09.issue_tracker.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class LoginService {
 	private final OauthProviderInMemoryRepository oauthProviderRepository;
 	private final MemberService memberService;
 	private final JwtTokenProvider tokenProvider;
+	private final RedisService redisService;
 
 	public LoginResponseDto login(String providerName, String code) {
 
@@ -35,6 +37,7 @@ public class LoginService {
 		Member member = memberService.saveOrUpdate(userProfile);
 
 		JwtToken token = tokenProvider.createJwtToken(member.getId(), member.getName());
+		redisService.setValue(String.valueOf(member.getId()), token.getRefreshToken());
 
 		return LoginResponseDto.builder()
 			.userId(member.getId())
