@@ -15,7 +15,7 @@ public class JwtTokenProvider {
 
 	private final Key key;
 	private final long accessTokenExpireTime;
-	private final long refreshTokenExpireTime;
+	public final long refreshTokenExpireTime;
 
 	public JwtTokenProvider(String secret, long accessTokenExpireTime,
 		long refreshTokenExpireTime) {
