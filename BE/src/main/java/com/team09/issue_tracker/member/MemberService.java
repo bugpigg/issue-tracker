@@ -19,8 +19,12 @@ public class MemberService {
 	}
 
 	public Long findIdFromUserId(String userId) {
-		Member member = memberRepository.findByUserId(userId)
-			.orElseThrow(() -> new RuntimeException("userId에 해당하는 멤버가 존재하지 않습니다!!"));
+		Member member = findByUserId(userId);
 		return member.getId();
+	}
+
+	public Member findByUserId(String userId) {
+		return memberRepository.findByUserId(userId)
+			.orElseThrow(() -> new RuntimeException("userId에 해당하는 멤버가 존재하지 않습니다!!"));
 	}
 }
