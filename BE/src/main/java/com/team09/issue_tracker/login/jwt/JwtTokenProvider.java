@@ -44,9 +44,8 @@ public class JwtTokenProvider {
 		} catch (MalformedJwtException e) {
 			log.info("Invalid JWT token.");
 		} catch (ExpiredJwtException e) {
-			// TODO : 만료된 토큰 처리
 			log.info("Expired JWT token.");
-			return e.getClaims();
+			throw new RuntimeException("토큰이 만료되었습니다!!");
 		} catch (UnsupportedJwtException e) {
 			log.info("Unsupported JWT token.");
 		} catch (IllegalArgumentException e) {

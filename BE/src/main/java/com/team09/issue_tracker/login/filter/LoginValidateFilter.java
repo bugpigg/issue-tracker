@@ -21,7 +21,7 @@ public class LoginValidateFilter extends OncePerRequestFilter {
 
 	private static final String HEADER_AUTHORIZATION = "Authorization";
 	private static final String TOKEN_PREFIX = "Bearer ";
-	private static final String[] VALID_FREE_URLS = {"/login/oauth/*"};
+	private static final String[] VALID_FREE_URLS = {"/login/*"};
 	private final JwtTokenProvider tokenProvider;
 	private final MemberService memberService;
 
