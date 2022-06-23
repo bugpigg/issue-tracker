@@ -26,7 +26,7 @@ public class OauthUserProfile {
 
 	public Member toMember() {
 		return Member.builder()
-			.type(MemberType.valueOf(providerName))
+			.type(MemberType.getEnum(providerName))
 			.name(name)
 			.userId(userId)
 			.email(email)
