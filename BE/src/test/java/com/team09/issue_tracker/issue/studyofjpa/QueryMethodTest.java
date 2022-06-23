@@ -9,7 +9,6 @@ import com.team09.issue_tracker.label.LabelRepository;
 import com.team09.issue_tracker.member.Member;
 import com.team09.issue_tracker.milestone.Milestone;
 import com.team09.issue_tracker.milestone.MilestoneRepository;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @DisplayName("메서드 쿼리 학습테스트")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

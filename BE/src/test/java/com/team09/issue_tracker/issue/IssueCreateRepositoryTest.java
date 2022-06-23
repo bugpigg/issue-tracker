@@ -1,20 +1,12 @@
 package com.team09.issue_tracker.issue;
 
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.team09.issue_tracker.issue.domain.Issue;
-import com.team09.issue_tracker.issue.dto.IssueSaveRequestDto;
-import com.team09.issue_tracker.milestone.Milestone;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @DisplayName("IssueRepository 이슈 생성")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
