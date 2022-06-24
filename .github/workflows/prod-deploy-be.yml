@@ -40,7 +40,7 @@ jobs:
         
       - name: Docker Environmet Variable file
         run:
-          echo -e "AIRBNB_URL=${{secrets.DB_URL}}\nAIRBNB_USER=${{secrets.DB_USER}}\nAIRBNB_PW=${{secrets.DB_PW}}\nLOG_FILE_PATH=${{secrets.LOG_FILE_PATH}}" > ./env
+          echo -e "DB_URL=${{secrets.DB_URL}}\nDB_USER=${{secrets.DB_USER}}\nDB_PW=${{secrets.DB_PW}}\nLOG_FILE_PATH=${{secrets.LOG_FILE_PATH}}" > ./env
         working-directory: ${{ env.WORKING_DIR }}
       
       - name: Set up Docker Buildx
@@ -59,7 +59,7 @@ jobs:
           context: ${{env.WORKING_DIR}}
           file: ${{env.WORKING_DIR}}/Dockerfile
           push: true
-          tags: ghcr.io/bugpigg/airbnb-${{ env.DEPLOY_TYPE }}:latest
+          tags: ghcr.io/bugpigg/issue-tracker-${{ env.DEPLOY_TYPE }}:latest
       
       # $GITHUB_SHA는 현재 workflow를 실행시키는 커밋의 해쉬값
       - name: Make zip file
