@@ -1,6 +1,7 @@
 package com.team09.issue_tracker.issue;
 
 import com.team09.issue_tracker.common.CommonResponseDto;
+import com.team09.issue_tracker.issue.dto.SelectableLabelMilestoneResponse;
 import com.team09.issue_tracker.issue.dto.IssueSaveRequestDto;
 import com.team09.issue_tracker.issue.dto.IssueListResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
@@ -43,6 +44,15 @@ public class IssueController {
 		return ResponseEntity.ok().body(response);
 	}
 
+	@GetMapping("/{id}/editing")
+	public ResponseEntity<SelectableLabelMilestoneResponse> readyToEditLabelAndMilestone(
+		@PathVariable final Long id) {
+		SelectableLabelMilestoneResponse response = issueService.readyToEditLabelAndMilestone(
+			id, MEMBER_ID);
+
+		return ResponseEntity.ok().body(response);
+	}
+
 	@PostMapping
 	public ResponseEntity<CommonResponseDto> create(
 		@RequestBody IssueSaveRequestDto issueCreateRequestDto) {
@@ -53,12 +63,21 @@ public class IssueController {
 		return ResponseEntity.ok().body(response);
 	}
 
+	@PatchMapping("/{id}")
+	public ResponseEntity<CommonResponseDto> update(@PathVariable final Long id,
+		@RequestBody IssueSaveRequestDto issueSaveRequestDto) {
+
+		CommonResponseDto response = issueService.update(issueSaveRequestDto, id);
+
+		return ResponseEntity.ok().body(response);
+	}
+
 	@DeleteMapping("/{id}")
 	public ResponseEntity<CommonResponseDto> delete(@PathVariable final Long id) {
 		return ResponseEntity.ok(new CommonResponseDto());
 	}
 
-	@PatchMapping("/{id}")
+	@PatchMapping("/{id}/state")
 	public ResponseEntity<CommonResponseDto> updateState(@PathVariable final Long id,
 		@RequestParam final Boolean isClose) {
 		return ResponseEntity.ok(new CommonResponseDto());

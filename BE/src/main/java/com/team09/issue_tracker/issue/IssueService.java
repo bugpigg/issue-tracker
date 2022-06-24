@@ -2,15 +2,21 @@ package com.team09.issue_tracker.issue;
 
 import com.team09.issue_tracker.common.CommonResponseDto;
 import com.team09.issue_tracker.exception.EditorInvalidException;
+import com.team09.issue_tracker.exception.IssueNotFoundException;
 import com.team09.issue_tracker.issue.domain.Issue;
 import com.team09.issue_tracker.issue.domain.IssueAssignee;
 import com.team09.issue_tracker.issue.domain.IssueLabel;
+import com.team09.issue_tracker.issue.dto.SelectableLabelMilestoneResponse;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueSaveRequestDto;
 import com.team09.issue_tracker.issue.dto.IssueListResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueSaveServiceDto;
+import com.team09.issue_tracker.issue.dto.SelectableLabelResponse;
+import com.team09.issue_tracker.issue.dto.SelectableMilestoneResponse;
 import com.team09.issue_tracker.member.Member;
 import com.team09.issue_tracker.milestone.Milestone;
+import com.team09.issue_tracker.milestone.MilestoneRepository;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,6 +31,7 @@ public class IssueService {
 	private final IssueRepository issueRepository;
 	private final IssueLabelRepository issueLabelRepository;
 	private final IssueAssigneeRepository issueAssigneeRepository;
+	private final MilestoneRepository milestoneRepository;
 
 	@Transactional(readOnly = true)
 	public List<IssueListResponseDto> selectOpenedList(Long memberId) {
@@ -123,4 +130,53 @@ public class IssueService {
 		return issue.toDetailResponse(isEditable);
 	}
 
+	public CommonResponseDto update(IssueSaveRequestDto issueSaveRequestDto, Long issueId) {
+
+		return null;
+	}
+
+	public SelectableLabelMilestoneResponse readyToEditLabelAndMilestone(Long issueId,
+		Long memberId) {
+		//label
+		List<IEditableLabel> selectableLabels = issueLabelRepository.findBySelectable(issueId,
+			memberId);
+
+		List<SelectableLabelResponse> labelsResponse = new ArrayList<>();
+		for (IEditableLabel selectableLabel : selectableLabels) {
+			labelsResponse.add(SelectableLabelResponse.builder()
+				.labelId(selectableLabel.getLabelId())
+				.title(selectableLabel.getTitle())
+				.backgroundColor(selectableLabel.getBackgroundColor())
+				.darkMode(selectableLabel.getDarkMode())
+				.memberId(selectableLabel.getMemberId())
+				.issueId(selectableLabel.getIssueId())
+				.build());
+		}
+
+		//milestone
+		List<SelectableMilestoneResponse> milestoneResponse = new ArrayList<>();
+
+		Issue issue = issueRepository.findById(issueId)
+			.orElseThrow(() -> new IssueNotFoundException());
+
+		Milestone selectedMilestone = issue.getMilestone();
+
+		List<Milestone> selectableMilestone = milestoneRepository.findByWriter(Member.of(memberId));
+		for (Milestone milestone : selectableMilestone) {
+			if (selectedMilestone.getId() == milestone.getId()) {
+				milestoneResponse.add(SelectableMilestoneResponse.builder()
+					.milestoneId(milestone.getId())
+					.title(milestone.getTitle())
+					.issueId(issue.getId())
+					.build());
+			} else {
+				milestoneResponse.add(SelectableMilestoneResponse.builder()
+					.milestoneId(milestone.getId())
+					.title(milestone.getTitle())
+					.build());
+			}
+		}
+
+		return new SelectableLabelMilestoneResponse(labelsResponse, milestoneResponse);
+	}
 }
