@@ -3,6 +3,8 @@ package com.team09.issue_tracker.issue.studyofjpa;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.team09.issue_tracker.issue.IEditableLabel;
+import com.team09.issue_tracker.issue.IssueLabelRepository;
 import com.team09.issue_tracker.issue.IssueRepository;
 import com.team09.issue_tracker.issue.domain.Issue;
 import com.team09.issue_tracker.label.LabelRepository;
@@ -13,6 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,9 +34,25 @@ public class QueryMethodTest {
 	MilestoneRepository milestoneRepository;
 	@Autowired
 	LabelRepository labelRepository;
+	@Autowired
+	IssueLabelRepository issueLabelRepository;
+
 
 	final Long MEMBER_ID = 1L;
 	final Long MILESTONE_ID = 1L;
+	final Long ISSUE_ID = 1L;
+
+	@Test
+	@DisplayName("IssueLabelRepository.선택하거나 가능한 레벨 목록 조회")
+	void findBySelectable() {
+
+		//when
+		List<IEditableLabel> findIssueLabels = issueLabelRepository.findBySelectable(ISSUE_ID,
+			MEMBER_ID);
+
+		//then
+		assertThat(findIssueLabels).isNotNull();
+	}
 
 	@Test
 	@DisplayName("Property Expressions 테스트")
@@ -60,12 +79,12 @@ public class QueryMethodTest {
 		//then
 		assertThat(count).isEqualTo(1);
 	}
-	
+
 	@Test
 	@DisplayName("existByIdsAndMemberId()")
 	void existByIdsAndMemberId() {
 		//given
-		Set<Long> labelIds = Set.of(1L,2L,3L);
+		Set<Long> labelIds = Set.of(1L, 2L, 3L);
 
 		//when
 		boolean existMyLabels = labelRepository.existsByIdInAndMemberId(labelIds, MEMBER_ID);
@@ -86,11 +105,11 @@ public class QueryMethodTest {
 		//then
 		assertThat(existMyLabels).isFalse();
 	}
-	
+
 	@Test
 	void countByIdInAndMemberId() {
 		//given
-		List<Long> labelIds = List.of(1L,2L,3L);
+		List<Long> labelIds = List.of(1L, 2L, 3L);
 
 		//when
 		long labelCount = labelRepository.countByIdInAndMemberId(labelIds, MEMBER_ID);
