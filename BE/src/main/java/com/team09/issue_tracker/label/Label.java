@@ -26,19 +26,17 @@ public class Label {
 
 	private String description;
 
-	private boolean isDarkMode;
+	private Boolean isDarkMode;
 
 	private String backgroundColor;
 
 	private Long memberId;
-
 
 	public static Label of(Long labelid) {
 		return Label.builder()
 			.id(labelid)
 			.build();
 	}
-
 
 	public LabelSelectResponseDto toResponseDto() {
 		return LabelSelectResponseDto.builder()
