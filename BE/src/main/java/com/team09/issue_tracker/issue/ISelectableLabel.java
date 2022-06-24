@@ -1,6 +1,6 @@
 package com.team09.issue_tracker.issue;
 
-public interface IEditableLabel {
+public interface ISelectableLabel {
 
 	Long getLabelId();
 

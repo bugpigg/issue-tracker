@@ -138,11 +138,11 @@ public class IssueService {
 	public SelectableLabelMilestoneResponse readyToEditLabelAndMilestone(Long issueId,
 		Long memberId) {
 		//label
-		List<IEditableLabel> selectableLabels = issueLabelRepository.findBySelectable(issueId,
+		List<ISelectableLabel> selectableLabels = issueLabelRepository.findBySelectable(issueId,
 			memberId);
 
 		List<SelectableLabelResponse> labelsResponse = new ArrayList<>();
-		for (IEditableLabel selectableLabel : selectableLabels) {
+		for (ISelectableLabel selectableLabel : selectableLabels) {
 			labelsResponse.add(SelectableLabelResponse.builder()
 				.labelId(selectableLabel.getLabelId())
 				.title(selectableLabel.getTitle())

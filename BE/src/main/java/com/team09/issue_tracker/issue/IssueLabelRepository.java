@@ -17,7 +17,7 @@ public interface IssueLabelRepository extends JpaRepository<IssueLabel, Long> {
 		+ "where i.label.memberId = :memberId "
 		+ "and i.issue.id = :issueId "
 		+ "or (i.label.memberId = :memberId and i.issue.id is null)")
-	List<IEditableLabel> findBySelectable(@Param("issueId") Long issueId,
+	List<ISelectableLabel> findBySelectable(@Param("issueId") Long issueId,
 		@Param("memberId") Long memberId);
 
 }

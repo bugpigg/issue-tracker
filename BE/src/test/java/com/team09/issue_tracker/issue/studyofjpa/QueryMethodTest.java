@@ -3,7 +3,7 @@ package com.team09.issue_tracker.issue.studyofjpa;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.team09.issue_tracker.issue.IEditableLabel;
+import com.team09.issue_tracker.issue.ISelectableLabel;
 import com.team09.issue_tracker.issue.IssueLabelRepository;
 import com.team09.issue_tracker.issue.IssueRepository;
 import com.team09.issue_tracker.issue.domain.Issue;
@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,7 +46,7 @@ public class QueryMethodTest {
 	void findBySelectable() {
 
 		//when
-		List<IEditableLabel> findIssueLabels = issueLabelRepository.findBySelectable(ISSUE_ID,
+		List<ISelectableLabel> findIssueLabels = issueLabelRepository.findBySelectable(ISSUE_ID,
 			MEMBER_ID);
 
 		//then
