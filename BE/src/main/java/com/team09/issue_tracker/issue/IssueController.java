@@ -93,9 +93,14 @@ public class IssueController {
 	 */
 	@PatchMapping("/{id}")
 	public ResponseEntity<CommonResponseDto> update(@PathVariable final Long id,
-		@RequestBody IssueSaveRequestDto issueSaveRequestDto) {
+		@RequestBody IssueUpdateRequestDto issueUpdateRequestDto) {
+		//mileStoneId 검증
+		Optional.ofNullable(issueUpdateRequestDto.getMilestoneId())
+			.ifPresent(milestoneId -> validateMilestoneId(milestoneId));
+		//labelIds 검증
+		validateLabelIds(issueUpdateRequestDto.getLabelIds());
 
-		CommonResponseDto response = issueService.update(issueSaveRequestDto, id);
+		CommonResponseDto response = issueService.update(issueUpdateRequestDto, id, MEMBER_ID);
 
 		return ResponseEntity.ok().body(response);
 	}
