@@ -1,11 +1,13 @@
 package com.team09.issue_tracker.issue;
 
 import com.team09.issue_tracker.common.CommonResponseDto;
+import com.team09.issue_tracker.issue.dto.IssueUpdateRequestDto;
 import com.team09.issue_tracker.issue.dto.SelectableLabelMilestoneResponse;
 import com.team09.issue_tracker.issue.dto.IssueSaveRequestDto;
 import com.team09.issue_tracker.issue.dto.IssueListResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -44,6 +46,12 @@ public class IssueController {
 		return ResponseEntity.ok().body(response);
 	}
 
+	/**
+	 * 이슈 상세의 편집화면, "더보기"
+	 *
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{id}/editing")
 	public ResponseEntity<SelectableLabelMilestoneResponse> readyToEditLabelAndMilestone(
 		@PathVariable final Long id) {
@@ -53,16 +61,36 @@ public class IssueController {
 		return ResponseEntity.ok().body(response);
 	}
 
+	/**
+	 * 이슈 생성
+	 *
+	 * @param IssueSaveRequestDto
+	 * @return
+	 */
 	@PostMapping
 	public ResponseEntity<CommonResponseDto> create(
-		@RequestBody IssueSaveRequestDto issueCreateRequestDto) {
+		@RequestBody IssueSaveRequestDto issueSaveRequestDto) {
 
-		validateCreateRequestDto(issueCreateRequestDto);
-		CommonResponseDto response = issueService.create(issueCreateRequestDto, MEMBER_ID);
+		//mileStoneId 검증
+		Optional.ofNullable(issueSaveRequestDto.getMilestoneId())
+			.ifPresent(milestoneId -> validateMilestoneId(milestoneId));
+		//labelsIds 검증
+		validateLabelIds(issueSaveRequestDto.getLabelIds());
+		//assigneeIds 검증
+		validateAssigneeIds(issueSaveRequestDto.getAssigneeIds());
+
+		CommonResponseDto response = issueService.create(issueSaveRequestDto, MEMBER_ID);
 
 		return ResponseEntity.ok().body(response);
 	}
 
+	/**
+	 * 이슈 수정
+	 *
+	 * @param id
+	 * @param IssueUpdateRequestDto
+	 * @return
+	 */
 	@PatchMapping("/{id}")
 	public ResponseEntity<CommonResponseDto> update(@PathVariable final Long id,
 		@RequestBody IssueSaveRequestDto issueSaveRequestDto) {
@@ -101,21 +129,20 @@ public class IssueController {
 		return ResponseEntity.ok(new CommonResponseDto());
 	}
 
-	private void validateCreateRequestDto(IssueSaveRequestDto issueCreateRequestDto) {
-		//mileStoneId 검증
-		if (issueCreateRequestDto.getMilestoneId() != null) {
-			issueValidateService.validateMyMilestoneId(
-				issueCreateRequestDto.getMilestoneId(), MEMBER_ID);
+	private void validateAssigneeIds(List<Long> assigneeIds) {
+		if (assigneeIds.size() > 0) {
+			issueValidateService.validateMember(assigneeIds);
 		}
+	}
 
-		//labelsIds 검증
-		if (issueCreateRequestDto.getLabelIds() != null) {
-			issueValidateService.validateMyLabelIds(issueCreateRequestDto.getLabelIds(), MEMBER_ID);
+	private void validateLabelIds(List<Long> labelIds) {
+		if (labelIds.size() > 0) {
+			issueValidateService.validateMyLabelIds(labelIds, MEMBER_ID);
 		}
+	}
 
-		//assigneeIds 검증
-		if (issueCreateRequestDto.getAssigneeIds() != null) {
-			issueValidateService.validateMember(issueCreateRequestDto.getAssigneeIds());
-		}
+	private void validateMilestoneId(Long milestoneId) {
+		issueValidateService.validateMyMilestoneId(
+			milestoneId, MEMBER_ID);
 	}
 }
