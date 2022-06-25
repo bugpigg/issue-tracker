@@ -4,7 +4,7 @@ import com.team09.issue_tracker.common.BaseTimeEntity;
 import com.team09.issue_tracker.common.CommonResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueListResponseDto;
-import com.team09.issue_tracker.issue.dto.IssueSaveServiceDto;
+import com.team09.issue_tracker.issue.dto.service.IssueSaveServiceDto;
 import com.team09.issue_tracker.label.Label;
 import com.team09.issue_tracker.milestone.Milestone;
 import java.util.ArrayList;
@@ -118,4 +118,23 @@ public class Issue extends BaseTimeEntity {
 			.build();
 	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setMilestone(Milestone milestone) {
+		this.milestone = milestone;
+	}
+
+	public void setOpened(boolean opened) {
+		isOpened = opened;
+	}
+
+	public void setIssueLabels(List<IssueLabel> issueLabels) {
+		this.issueLabels = issueLabels;
+	}
 }
