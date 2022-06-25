@@ -32,6 +32,10 @@ public class Label {
 
 	private Long memberId;
 
+	public Long getId() {
+		return id;
+	}
+
 	public static Label of(Long labelid) {
 		return Label.builder()
 			.id(labelid)
