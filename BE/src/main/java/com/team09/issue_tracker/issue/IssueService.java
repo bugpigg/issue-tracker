@@ -147,9 +147,77 @@ public class IssueService {
 		return issue.toDetailResponse(isEditable);
 	}
 
-	public CommonResponseDto update(IssueSaveRequestDto issueSaveRequestDto, Long issueId) {
+	/**
+	 * 이슈 수정 - 이슈, 이슈 상태,연관 레이블, 마일스톤 모두 수정 가능
+	 *
+	 * @param IssueUpdateRequestDto
+	 * @param issueId
+	 * @return
+	 */
+	@Transactional
+	public CommonResponseDto update(IssueUpdateRequestDto issueUpdateRequestDto, Long issueId,
+		Long memberId) {
 
-		return null;
+		Issue issue = issueRepository.findById(issueId)
+			.orElseThrow(() -> new IssueNotFoundException());
+
+		issue.setTitle(issueUpdateRequestDto.getTitle());
+		issue.setContent(issueUpdateRequestDto.getContent());
+		issue.setOpened(issueUpdateRequestDto.isOpened());
+		Optional.ofNullable(issueUpdateRequestDto.getMilestoneId())
+			.map(Milestone::of)
+			.ifPresentOrElse(milestone -> issue.setMilestone(milestone),
+				() -> issue.setMilestone(null));
+
+		/** label 수정
+		 1.기존리스트 issueLabels 검색
+		 2.기존리스트에서 삭제된 레이블, DB삭제
+		 3.기존리스트에 없는 추가로 선택된 레이블, DB추가
+		 **/
+		List<IssueLabel> issueLabels = issue.getIssueLabels();
+
+		List<Long> editingLabelIds = issueUpdateRequestDto.getLabelIds();
+		//Label을 모두 삭제할 경우
+		if (issueUpdateRequestDto.getLabelIds().isEmpty()) {
+			issueLabels.stream()
+				.forEach(issueLabel -> issueLabelRepository.delete(issueLabel));
+			issue.addIssueLabel(Collections.emptyList());
+
+			return new CommonResponseDto(issue.getId());
+		}
+
+		List<Long> existingLabelIds = issueLabels.stream()
+			.map(IssueLabel::getLabel)
+			.map(Label::getId)
+			.collect(Collectors.toList());
+		List<Long> copiedExistingLabelIds = List.copyOf(existingLabelIds);
+
+		existingLabelIds.removeAll(editingLabelIds); //삭제할 라벨 리스트
+		editingLabelIds.removeAll(copiedExistingLabelIds); //추가할 라벨 리스트
+
+		//DB 삭제
+		List<IssueLabel> deletedIssueLabels = existingLabelIds.stream()
+			.map(labelId -> issueLabelRepository.findByIssueAndLabel(Issue.of(issueId),
+					Label.of(labelId))
+				.orElseThrow(() -> new IssueLabelNotFoundException(issueId, labelId)))
+			.collect(Collectors.toList());
+		deletedIssueLabels.stream()
+			.forEach(issueLabel -> issueLabelRepository.delete(issueLabel));
+
+		//DB 추가
+		List<IssueLabel> savedIssueLabels = editingLabelIds.stream()
+			.map(labelId -> issueLabelRepository.save(IssueLabel.of(issueId, labelId)))
+			.collect(Collectors.toList());
+
+		//연관관계 편의 메서드 호출
+		deletedIssueLabels.stream()
+			.forEach(issueLabel -> issueLabels.remove(issueLabel));
+		savedIssueLabels.stream()
+			.forEach(issueLabel -> issueLabels.add(issueLabel));
+
+		issue.addIssueLabel(issueLabels);
+
+		return new CommonResponseDto(issue.getId());
 	}
 
 	@Transactional(readOnly = true)
