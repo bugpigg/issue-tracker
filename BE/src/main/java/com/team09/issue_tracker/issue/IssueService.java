@@ -2,10 +2,12 @@ package com.team09.issue_tracker.issue;
 
 import com.team09.issue_tracker.common.CommonResponseDto;
 import com.team09.issue_tracker.exception.EditorInvalidException;
+import com.team09.issue_tracker.exception.IssueLabelNotFoundException;
 import com.team09.issue_tracker.exception.IssueNotFoundException;
 import com.team09.issue_tracker.issue.domain.Issue;
 import com.team09.issue_tracker.issue.domain.IssueAssignee;
 import com.team09.issue_tracker.issue.domain.IssueLabel;
+import com.team09.issue_tracker.issue.dto.IssueUpdateRequestDto;
 import com.team09.issue_tracker.issue.dto.SelectableLabelMilestoneResponse;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueSaveRequestDto;
@@ -13,12 +15,14 @@ import com.team09.issue_tracker.issue.dto.IssueListResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueSaveServiceDto;
 import com.team09.issue_tracker.issue.dto.SelectableLabelResponse;
 import com.team09.issue_tracker.issue.dto.SelectableMilestoneResponse;
+import com.team09.issue_tracker.label.Label;
 import com.team09.issue_tracker.member.Member;
 import com.team09.issue_tracker.milestone.Milestone;
 import com.team09.issue_tracker.milestone.MilestoneRepository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,34 +50,48 @@ public class IssueService {
 
 	@Transactional
 	public CommonResponseDto create(IssueSaveRequestDto issueCreateRequestDto, Long memberId) {
-		Long milestoneId = issueCreateRequestDto.getMilestoneId();
+		boolean isOpened = true;
+		//1. milestone 생성 - 이렇게하면 getMilestoneId()가 null이면 어떻게 됨?
+		Milestone milestone = Optional.ofNullable(issueCreateRequestDto.getMilestoneId())
+			.map(Milestone::of).get();
+
+		//2. Issue 생성
+		Issue issue = createIssue(issueCreateRequestDto.getTitle(),
+			issueCreateRequestDto.getContent(), memberId,
+			isOpened, milestone);
+
+		Issue savedIssue = issueRepository.save(issue);
+		Long issueId = savedIssue.getId();
+
+		// IssueLabel, IssueAssignee
 		List<Long> labelIds = issueCreateRequestDto.getLabelIds();
 		List<Long> assigneeIds = issueCreateRequestDto.getAssigneeIds();
 
-		boolean isOpened = true;
+		//3. IssueLabel 생성
+		saveIssueLabel(savedIssue, issueId, labelIds);
 
-		//1. Milestone 생성
-		Milestone milestone = null;
-		if (milestoneId != null) {
-			milestone = Milestone.of(milestoneId);
-		}
+		//4. IssueAssignee 생성
+		savedIssueAssignee(issue, savedIssue, assigneeIds);
 
-		//2. Issue 생성
+		return savedIssue.toCommonResponse();
+	}
+
+	private Issue createIssue(String title, String content, Long memberId,
+		boolean isOpened, Milestone milestone) {
 		IssueSaveServiceDto issueSaveServiceDto = IssueSaveServiceDto.builder()
-			.title(issueCreateRequestDto.getTitle())
-			.content(issueCreateRequestDto.getContent())
+			.title(title)
+			.content(content)
 			.milestone(milestone)
 			.isOpened(isOpened)
 			.memberId(memberId)
 			.build();
 		Issue issue = Issue.from(issueSaveServiceDto);
 
-		//Issue 저장
-		Issue savedIssue = issueRepository.save(issue);
-		Long issueId = savedIssue.getId();
+		return issue;
+	}
 
-		//3. IssueLabel 생성
-		if (labelIds.size() > 0) {
+	private void saveIssueLabel(Issue savedIssue, Long issueId, List<Long> labelIds) {
+		if (!labelIds.isEmpty()) {
 			List<IssueLabel> issueLabels = labelIds.stream()
 				.map(labelId -> IssueLabel.of(issueId, labelId))
 				.collect(Collectors.toList());
@@ -84,8 +102,9 @@ public class IssueService {
 			//연관관계 편의 메서드
 			savedIssue.addIssueLabel(savedIssueLabels);
 		}
+	}
 
-		//4. IssueAssignee 생성
+	private void savedIssueAssignee(Issue issue, Issue savedIssue, List<Long> assigneeIds) {
 		if (assigneeIds.size() > 0) {
 			List<IssueAssignee> issueAssignees = assigneeIds.stream()
 				.map(assigneeId -> IssueAssignee.of(savedIssue, Member.of(assigneeId)))
@@ -97,8 +116,6 @@ public class IssueService {
 			//연관관계 편의메서드
 			issue.addIssueAssignee(savedIssueAssignees);
 		}
-
-		return savedIssue.toCommonResponse();
 	}
 
 	/**
@@ -135,6 +152,7 @@ public class IssueService {
 		return null;
 	}
 
+	@Transactional(readOnly = true)
 	public SelectableLabelMilestoneResponse readyToEditLabelAndMilestone(Long issueId,
 		Long memberId) {
 		//label
