@@ -1,9 +1,9 @@
 #!/bin/bash
 
-cd /home/ec2-user/issue-tracker/BE
+cd /home/ec2-user/issue-tracker/be
 
-CONTAINER_NAME="issue-tracker-BE"
-IMAGE_NAME="ghcr.io/bugpigg/issue-tracker-BE:latest"
+CONTAINER_NAME="issue-tracker-be"
+IMAGE_NAME="ghcr.io/bugpigg/issue-tracker-be:latest"
 
 # remove prev image
 sudo docker stop $CONTAINER_NAME

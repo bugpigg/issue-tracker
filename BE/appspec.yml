@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ec2-user/issue-tracker/BE
+    destination: /home/ec2-user/issue-tracker/be
     overwrite: yes
 
 permissions:

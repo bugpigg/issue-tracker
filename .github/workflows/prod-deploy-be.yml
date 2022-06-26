@@ -11,8 +11,8 @@ jobs:
       run:
         shell: bash
     env:
-      WORKING_DIR: ./BE
-      DEPLOY_TYPE: BE
+      WORKING_DIR: ./be
+      DEPLOY_TYPE: be
       S3_BUCKET_NAME: issue-tracker-deploy
       PROJECT_NAME: issue-tracker
       AWS_REGION: ap-northeast-2
