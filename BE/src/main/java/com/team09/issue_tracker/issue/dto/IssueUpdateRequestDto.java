@@ -17,6 +17,6 @@ public class IssueUpdateRequestDto {
 	private Long milestoneId;
 	private List<Long> labelIds;
 	private List<Long> assigneeIds;
-	private boolean isOpened;
+	private boolean opened;
 
 }

@@ -7,7 +7,6 @@ import com.team09.issue_tracker.issue.dto.IssueSaveRequestDto;
 import com.team09.issue_tracker.issue.dto.IssueListResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
