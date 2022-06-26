@@ -65,8 +65,7 @@ public class IssueService {
 		Milestone milestone = createMilestone(issueSaveRequestDto, memberId);
 
 		//2. Issue 생성
-
-		Issue issue = createIssue(issueSaveRequestDto.getTitle(),
+		Issue issue = Issue.of(issueSaveRequestDto.getTitle(),
 			issueSaveRequestDto.getContent(), memberId,
 			isOpened, milestone);
 
@@ -99,20 +98,6 @@ public class IssueService {
 			.map(Milestone::of)
 			.orElse(null);
 		return milestone;
-	}
-
-	private Issue createIssue(String title, String content, Long memberId,
-		boolean isOpened, Milestone milestone) {
-		IssueSaveServiceDto issueSaveServiceDto = IssueSaveServiceDto.builder()
-			.title(title)
-			.content(content)
-			.milestone(milestone)
-			.isOpened(isOpened)
-			.memberId(memberId)
-			.build();
-		Issue issue = Issue.from(issueSaveServiceDto);
-
-		return issue;
 	}
 
 	private void saveIssueLabel(Issue savedIssue, Long issueId, List<Long> labelIds) {

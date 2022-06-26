@@ -74,14 +74,15 @@ public class Issue extends BaseTimeEntity {
 			.build();
 	}
 
-	public static Issue from(IssueSaveServiceDto issueSaveServiceDto) {
+	public static Issue of(String title, String content, Long memberId, boolean isOpened,
+		Milestone milestone) {
 		return Issue.builder()
-			.title(issueSaveServiceDto.getTitle())
-			.content(issueSaveServiceDto.getContent())
-			.milestone(issueSaveServiceDto.getMilestone())
-			.issueLabels(issueSaveServiceDto.getIssueLabels())
-			.isOpened(issueSaveServiceDto.isOpened())
-			.memberId(issueSaveServiceDto.getMemberId())
+			.title(title)
+			.content(content)
+			.milestone(milestone)
+//			.issueLabels(issueSaveServiceDto.getIssueLabels())
+			.isOpened(isOpened)
+			.memberId(memberId)
 			.build();
 	}
 
