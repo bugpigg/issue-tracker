@@ -13,8 +13,10 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -35,10 +37,6 @@ public class Milestone {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member writer;
-
-	public String getTitle() {
-		return title;
-	}
 
 	public static Milestone of(Long mileStoneId) {
 		return Milestone.builder()

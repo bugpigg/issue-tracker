@@ -13,6 +13,6 @@ public class EmogiController {
 	@PostMapping("/emogi")
 	public ResponseEntity<CommonResponseDto> create(
 		@RequestBody EmogiRequestDto emogiCreateRequestDto) {
-		return ResponseEntity.ok(new CommonResponseDto());
+		return ResponseEntity.ok().build();
 	}
 }

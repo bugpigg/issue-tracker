@@ -4,7 +4,6 @@ import com.team09.issue_tracker.common.BaseTimeEntity;
 import com.team09.issue_tracker.common.CommonResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueListResponseDto;
-import com.team09.issue_tracker.issue.dto.IssueSaveServiceDto;
 import com.team09.issue_tracker.label.Label;
 import com.team09.issue_tracker.milestone.Milestone;
 import java.util.ArrayList;
@@ -74,14 +73,14 @@ public class Issue extends BaseTimeEntity {
 			.build();
 	}
 
-	public static Issue from(IssueSaveServiceDto issueSaveServiceDto) {
+	public static Issue of(String title, String content, Long memberId, boolean isOpened,
+		Milestone milestone) {
 		return Issue.builder()
-			.title(issueSaveServiceDto.getTitle())
-			.content(issueSaveServiceDto.getContent())
-			.milestone(issueSaveServiceDto.getMilestone())
-			.issueLabels(issueSaveServiceDto.getIssueLabels())
-			.isOpened(issueSaveServiceDto.isOpened())
-			.memberId(issueSaveServiceDto.getMemberId())
+			.title(title)
+			.content(content)
+			.milestone(milestone)
+			.isOpened(isOpened)
+			.memberId(memberId)
 			.build();
 	}
 
@@ -116,6 +115,22 @@ public class Issue extends BaseTimeEntity {
 				.orElse(""))
 			.isEditable(isEditable)
 			.build();
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public void setMilestone(Milestone milestone) {
+		this.milestone = milestone;
+	}
+
+	public void setOpened(boolean opened) {
+		isOpened = opened;
 	}
 
 }
