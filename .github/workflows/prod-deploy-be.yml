@@ -11,7 +11,7 @@ jobs:
       run:
         shell: bash
     env:
-      WORKING_DIR: ./be
+      WORKING_DIR: ./BE
       DEPLOY_TYPE: be
       S3_BUCKET_NAME: issue-tracker-deploy
       PROJECT_NAME: issue-tracker
