@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class IssueController {
 
 	private final IssueService issueService;
-	private final IssueValidateService issueValidateService;
 
 	//TODO : 상수로 사용한 MEMBER_ID는 로그인 구현 완료시 http request 에서 가져오는 것으로 변경
 	private final static Long MEMBER_ID = 1L;
@@ -70,15 +69,6 @@ public class IssueController {
 	@PostMapping
 	public ResponseEntity<CommonResponseDto> create(
 		@RequestBody IssueSaveRequestDto issueSaveRequestDto) {
-
-		//mileStoneId 검증
-		Optional.ofNullable(issueSaveRequestDto.getMilestoneId())
-			.ifPresent(milestoneId -> validateMilestoneId(milestoneId));
-		//labelsIds 검증
-		validateLabelIds(issueSaveRequestDto.getLabelIds());
-		//assigneeIds 검증
-		validateAssigneeIds(issueSaveRequestDto.getAssigneeIds());
-
 		CommonResponseDto response = issueService.create(issueSaveRequestDto, MEMBER_ID);
 
 		return ResponseEntity.ok().body(response);
@@ -94,11 +84,6 @@ public class IssueController {
 	@PatchMapping("/{id}")
 	public ResponseEntity<CommonResponseDto> update(@PathVariable final Long id,
 		@RequestBody IssueUpdateRequestDto issueUpdateRequestDto) {
-		//mileStoneId 검증
-		Optional.ofNullable(issueUpdateRequestDto.getMilestoneId())
-			.ifPresent(milestoneId -> validateMilestoneId(milestoneId));
-		//labelIds 검증
-		validateLabelIds(issueUpdateRequestDto.getLabelIds());
 
 		CommonResponseDto response = issueService.update(issueUpdateRequestDto, id, MEMBER_ID);
 
@@ -107,13 +92,13 @@ public class IssueController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<CommonResponseDto> delete(@PathVariable final Long id) {
-		return ResponseEntity.ok(new CommonResponseDto());
+		return ResponseEntity.ok().build();
 	}
 
 	@PatchMapping("/{id}/state")
 	public ResponseEntity<CommonResponseDto> updateState(@PathVariable final Long id,
 		@RequestParam final Boolean isClose) {
-		return ResponseEntity.ok(new CommonResponseDto());
+		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping(";type=title")
@@ -131,23 +116,7 @@ public class IssueController {
 	@PatchMapping
 	public ResponseEntity<CommonResponseDto> updateAllState(@RequestParam final Boolean isClose,
 		@RequestBody final IssueSaveRequestDto issueUpdateAllRequestDto) {
-		return ResponseEntity.ok(new CommonResponseDto());
+		return ResponseEntity.ok().build();
 	}
 
-	private void validateAssigneeIds(List<Long> assigneeIds) {
-		if (assigneeIds.size() > 0) {
-			issueValidateService.validateMember(assigneeIds);
-		}
-	}
-
-	private void validateLabelIds(List<Long> labelIds) {
-		if (labelIds.size() > 0) {
-			issueValidateService.validateMyLabelIds(labelIds, MEMBER_ID);
-		}
-	}
-
-	private void validateMilestoneId(Long milestoneId) {
-		issueValidateService.validateMyMilestoneId(
-			milestoneId, MEMBER_ID);
-	}
 }

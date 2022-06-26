@@ -37,6 +37,8 @@ public class IssueService {
 	private final IssueAssigneeRepository issueAssigneeRepository;
 	private final MilestoneRepository milestoneRepository;
 
+	private final IssueValidateService issueValidateService;
+
 	@Transactional(readOnly = true)
 	public List<IssueListResponseDto> selectOpenedList(Long memberId) {
 		List<Issue> issues = issueRepository.findByMemberIdAndIsOpened(memberId,
@@ -48,32 +50,55 @@ public class IssueService {
 		return Collections.unmodifiableList(response);
 	}
 
+	/**
+	 * 이슈 생성
+	 *
+	 * @param issueSaveRequestDto
+	 * @param memberId
+	 * @return
+	 */
 	@Transactional
-	public CommonResponseDto create(IssueSaveRequestDto issueCreateRequestDto, Long memberId) {
+	public CommonResponseDto create(IssueSaveRequestDto issueSaveRequestDto, Long memberId) {
 		boolean isOpened = true;
-		//1. milestone 생성 - 이렇게하면 getMilestoneId()가 null이면 어떻게 됨?
-		Milestone milestone = Optional.ofNullable(issueCreateRequestDto.getMilestoneId())
-			.map(Milestone::of).get();
+
+		//1. mileStone 검증, 생성
+		Milestone milestone = createMilestone(issueSaveRequestDto, memberId);
 
 		//2. Issue 생성
-		Issue issue = createIssue(issueCreateRequestDto.getTitle(),
-			issueCreateRequestDto.getContent(), memberId,
+
+		Issue issue = createIssue(issueSaveRequestDto.getTitle(),
+			issueSaveRequestDto.getContent(), memberId,
 			isOpened, milestone);
 
 		Issue savedIssue = issueRepository.save(issue);
 		Long issueId = savedIssue.getId();
 
-		// IssueLabel, IssueAssignee
-		List<Long> labelIds = issueCreateRequestDto.getLabelIds();
-		List<Long> assigneeIds = issueCreateRequestDto.getAssigneeIds();
+		//3. labelsIds 검증
+		List<Long> labelIds = issueSaveRequestDto.getLabelIds();
+		validateLabelIds(labelIds, memberId);
 
-		//3. IssueLabel 생성
+		//IssueLabel 생성
 		saveIssueLabel(savedIssue, issueId, labelIds);
 
-		//4. IssueAssignee 생성
+		//4. assigneeIds 검증
+		List<Long> assigneeIds = issueSaveRequestDto.getAssigneeIds();
+		validateAssigneeIds(assigneeIds);
+
+		//IssueAssignee 생성
 		savedIssueAssignee(issue, savedIssue, assigneeIds);
 
 		return savedIssue.toCommonResponse();
+	}
+
+	private Milestone createMilestone(IssueSaveRequestDto issueSaveRequestDto, Long memberId) {
+		Optional.ofNullable(issueSaveRequestDto.getMilestoneId())
+			.ifPresent(
+				milestoneId -> issueValidateService.validateMyMilestoneId(milestoneId, memberId));
+
+		Milestone milestone = Optional.ofNullable(issueSaveRequestDto.getMilestoneId())
+			.map(Milestone::of)
+			.orElse(null);
+		return milestone;
 	}
 
 	private Issue createIssue(String title, String content, Long memberId,
@@ -157,6 +182,12 @@ public class IssueService {
 	@Transactional
 	public CommonResponseDto update(IssueUpdateRequestDto issueUpdateRequestDto, Long issueId,
 		Long memberId) {
+
+//		//mileStoneId 검증
+//		Optional.ofNullable(issueUpdateRequestDto.getMilestoneId())
+//			.ifPresent(milestoneId -> validateMilestoneId(milestoneId));
+//		//labelIds 검증
+//		validateLabelIds(issueUpdateRequestDto.getLabelIds());
 
 		Issue issue = issueRepository.findById(issueId)
 			.orElseThrow(() -> new IssueNotFoundException());
@@ -264,5 +295,17 @@ public class IssueService {
 		}
 
 		return new SelectableLabelMilestoneResponse(labelsResponse, milestoneResponse);
+	}
+
+	private void validateAssigneeIds(List<Long> assigneeIds) {
+		if (assigneeIds.size() > 0) {
+			issueValidateService.validateMember(assigneeIds);
+		}
+	}
+
+	private void validateLabelIds(List<Long> labelIds, Long memberId) {
+		if (labelIds.size() > 0) {
+			issueValidateService.validateMyLabelIds(labelIds, memberId);
+		}
 	}
 }
