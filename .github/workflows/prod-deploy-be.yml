@@ -40,7 +40,7 @@ jobs:
         
       - name: Docker Environmet Variable file
         run:
-          echo -e "DB_URL=${{secrets.DB_URL}}\nDB_USER=${{secrets.DB_USER}}\nDB_PW=${{secrets.DB_PW}}\nLOG_FILE_PATH=${{secrets.LOG_FILE_PATH}}" > ./env
+          echo -e "DB_URL=${{secrets.DB_URL}}\nDB_USER=${{secrets.DB_USER}}\nDB_PW=${{secrets.DB_PW}}\nLOG_FILE_PATH=${{secrets.LOG_FILE_PATH}}\nGITHUB_CLIENT_ID=${{secrets.GITHUB_CLIENT_ID}}\n GITHUB_CLIENT_SECRET=${{secrets.GITHUB_CLIENT_SECRET}}\nGITHUB_REDIRECT_URL=${{secrets.GITHUB_REDIRECT_URL}}\nGITHUB_TOKEN_URL=${{secrets.GITHUB_TOKEN_URL}}\nGITHUB_USER_INFO_URL=${{secrets.GITHUB_USER_INFO_URL}}\nJWT_SECRET=${{secrets.JWT_SECRET}}\nJWT_ACCESS_TOKEN_EXPIRE_TIME=${{secrets.JWT_ACCESS_TOKEN_EXPIRE_TIME}}\nJWT_REFRESH_TOKEN_EXPIRE_TIME=${{secrets.JWT_REFRESH_TOKEN_EXPIRE_TIME}}\nAWS_KEY_ID=${{secrets.AWS_KEY_ID}}\nAWS_KEY_SECRET=${{secrets.AWS_KEY_SECRET}}\nAWS_REGION_NAME=${{secrets.AWS_REGION_NAME}}\nAWS_BUCKET_NAME=${{secrets.AWS_BUCKET_NAME}}\n" > ./env
         working-directory: ${{ env.WORKING_DIR }}
       
       - name: Set up Docker Buildx
