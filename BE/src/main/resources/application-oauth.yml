@@ -1,0 +1,10 @@
+oauth:
+  user:
+    github:
+      clientId: ${GITHUB_CLIENT_ID}
+      clientSecret: ${GITHUB_CLIENT_SECRET}
+      redirectUrl: ${GITHUB_REDIRECT_URL}
+  provider:
+    github:
+      tokenUrl: ${GITHUB_TOKEN_URL}
+      userInfoUrl: ${GITHUB_USER_INFO_URL}
