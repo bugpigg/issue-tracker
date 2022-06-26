@@ -134,7 +134,4 @@ public class Issue extends BaseTimeEntity {
 		isOpened = opened;
 	}
 
-	public void setIssueLabels(List<IssueLabel> issueLabels) {
-		this.issueLabels = issueLabels;
-	}
 }
