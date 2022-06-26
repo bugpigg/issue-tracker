@@ -2,14 +2,13 @@
 spring:
   profiles:
     active: dev-mysql
-    include: jwt,oauth,aws
 ---
 # profile group
 spring:
   profiles:
     group:
-      dev-mysql: "dev-mysql, local-log"
-      deploy-mysql: "deploy-mysql, deploy-log"
+      dev-mysql: "dev-mysql, local-log, jwt, oauth, aws"
+      deploy-mysql: "deploy-mysql, deploy-log, jwt, oauth, aws"
 ---
 # dev-mysql
 spring:
