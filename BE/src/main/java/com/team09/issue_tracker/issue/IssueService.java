@@ -12,7 +12,6 @@ import com.team09.issue_tracker.issue.dto.SelectableLabelMilestoneResponse;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueSaveRequestDto;
 import com.team09.issue_tracker.issue.dto.IssueListResponseDto;
-import com.team09.issue_tracker.issue.dto.IssueSaveServiceDto;
 import com.team09.issue_tracker.issue.dto.SelectableLabelResponse;
 import com.team09.issue_tracker.issue.dto.SelectableMilestoneResponse;
 import com.team09.issue_tracker.label.Label;
@@ -61,10 +60,10 @@ public class IssueService {
 	public CommonResponseDto create(IssueSaveRequestDto issueSaveRequestDto, Long memberId) {
 		boolean isOpened = true;
 
-		//1. mileStone 검증, 생성
+		//1. mileStone
 		Milestone milestone = createMilestone(issueSaveRequestDto, memberId);
 
-		//2. Issue 생성
+		//2. Issue
 		Issue issue = Issue.of(issueSaveRequestDto.getTitle(),
 			issueSaveRequestDto.getContent(), memberId,
 			isOpened, milestone);
@@ -72,18 +71,16 @@ public class IssueService {
 		Issue savedIssue = issueRepository.save(issue);
 		Long issueId = savedIssue.getId();
 
-		//3. labelsIds 검증
+		//3. labelsIds
 		List<Long> labelIds = issueSaveRequestDto.getLabelIds();
 		validateLabelIds(labelIds, memberId);
 
-		//IssueLabel 생성
 		saveIssueLabel(savedIssue, issueId, labelIds);
 
-		//4. assigneeIds 검증
+		//4. assigneeIds
 		List<Long> assigneeIds = issueSaveRequestDto.getAssigneeIds();
 		validateAssigneeIds(assigneeIds);
 
-		//IssueAssignee 생성
 		savedIssueAssignee(issue, savedIssue, assigneeIds);
 
 		return savedIssue.toCommonResponse();
