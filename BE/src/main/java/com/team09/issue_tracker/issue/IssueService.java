@@ -86,6 +86,16 @@ public class IssueService {
 		return savedIssue.toCommonResponse();
 	}
 
+	private Milestone createMilestone(IssueUpdateRequestDto issueUpdateRequestDto, Long memberId) {
+		Optional.ofNullable(issueUpdateRequestDto.getMilestoneId())
+			.ifPresent(
+				milestoneId -> issueValidateService.validateMyMilestoneId(milestoneId, memberId));
+
+		return Optional.ofNullable(issueUpdateRequestDto.getMilestoneId())
+			.map(Milestone::of)
+			.orElse(null);
+	}
+
 	private Milestone createMilestone(IssueSaveRequestDto issueSaveRequestDto, Long memberId) {
 		Optional.ofNullable(issueSaveRequestDto.getMilestoneId())
 			.ifPresent(
@@ -165,11 +175,8 @@ public class IssueService {
 	public CommonResponseDto update(IssueUpdateRequestDto issueUpdateRequestDto, Long issueId,
 		Long memberId) {
 
-//		//mileStoneId 검증
-//		Optional.ofNullable(issueUpdateRequestDto.getMilestoneId())
-//			.ifPresent(milestoneId -> validateMilestoneId(milestoneId));
-//		//labelIds 검증
-//		validateLabelIds(issueUpdateRequestDto.getLabelIds());
+		List<Long> labelIds = issueUpdateRequestDto.getLabelIds();
+		validateLabelIds(labelIds, memberId);
 
 		Issue issue = issueRepository.findById(issueId)
 			.orElseThrow(() -> new IssueNotFoundException());
@@ -177,10 +184,7 @@ public class IssueService {
 		issue.setTitle(issueUpdateRequestDto.getTitle());
 		issue.setContent(issueUpdateRequestDto.getContent());
 		issue.setOpened(issueUpdateRequestDto.isOpened());
-		Optional.ofNullable(issueUpdateRequestDto.getMilestoneId())
-			.map(Milestone::of)
-			.ifPresentOrElse(milestone -> issue.setMilestone(milestone),
-				() -> issue.setMilestone(null));
+		issue.setMilestone(createMilestone(issueUpdateRequestDto, memberId));
 
 		/** label 수정
 		 1.기존리스트 issueLabels 검색
