@@ -186,11 +186,26 @@ public class IssueService {
 		issue.setOpened(issueUpdateRequestDto.isOpened());
 		issue.setMilestone(createMilestone(issueUpdateRequestDto, memberId));
 
-		/** label 수정
-		 1.기존리스트 issueLabels 검색
-		 2.기존리스트에서 삭제된 레이블, DB삭제
-		 3.기존리스트에 없는 추가로 선택된 레이블, DB추가
-		 **/
+
+		CommonResponseDto response = updateIssueLabel(
+			issueUpdateRequestDto, issueId, issue);
+
+		return response;
+	}
+
+	/**
+	 * 	label 수정
+	 * 		 1.기존리스트 issueLabels 검색
+	 * 		 2.기존리스트에서 삭제된 레이블, DB삭제
+	 * 		 3.기존리스트에 없는 추가로 선택된 레이블, DB추가
+	 * @param issueUpdateRequestDto
+	 * @param issueId
+	 * @param issue
+	 * @return
+	 */
+	private CommonResponseDto updateIssueLabel(IssueUpdateRequestDto issueUpdateRequestDto,
+		Long issueId, Issue issue) {
+
 		List<IssueLabel> issueLabels = issue.getIssueLabels();
 
 		List<Long> editingLabelIds = issueUpdateRequestDto.getLabelIds();
