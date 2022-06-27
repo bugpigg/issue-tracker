@@ -26,7 +26,7 @@ protocol EditingIssueViewModelOutput {
 protocol EditingIssueViewModelProtocol: EditingIssueViewModelInput, EditingIssueViewModelOutput { }
 
 final class EditingIssueViewModel: EditingIssueViewModelProtocol {
-    private let useCase: EditingIssueManagable
+    private let issueManager: EditingIssueManagable
 
     private(set) var titleText: Observable<String> = Observable("")
     private(set) var contentText: Observable<String> = Observable("")
@@ -36,7 +36,7 @@ final class EditingIssueViewModel: EditingIssueViewModelProtocol {
     private(set) var error: Observable<String> = Observable("")
 
     init(useCase: EditingIssueManagable) {
-        self.useCase = useCase
+        self.issueManager = useCase
     }
 
     func didChangeSegmentValue(index: Int) {
@@ -51,7 +51,7 @@ final class EditingIssueViewModel: EditingIssueViewModelProtocol {
         saveButtonState.value = true
         let issueEntity = IssueItem(id: -1, title: titleText.value, content: contentText.value, milestoneName: "", labels: [])
 
-        useCase.sendNewIssue(issueEntity) { [weak self] (result) in
+        issueManager.sendNewIssue(issueEntity) { [weak self] (result) in
             switch result {
             case .success(let idDictionary):
                 guard idDictionary["id"] != nil else { return }
