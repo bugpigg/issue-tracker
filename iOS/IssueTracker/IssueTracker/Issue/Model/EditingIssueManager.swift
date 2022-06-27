@@ -8,9 +8,9 @@
 import Foundation
 
 protocol EditingIssueManagable {
-    typealias IdData = [String: Int]
+    typealias IssueidData = [String: Int]
 
-    func sendNewIssue(_ newIssueEntity: IssueItem, completion: @escaping (Result<IdData, NetworkError>) -> Void)
+    func sendNewIssue(_ newIssueEntity: IssueItem, completion: @escaping (Result<IssueidData, NetworkError>) -> Void)
 }
 
 struct EditingIssueManager {
@@ -22,8 +22,8 @@ struct EditingIssueManager {
 }
 
 extension EditingIssueManager: EditingIssueManagable {
-    func sendNewIssue(_ newIssueEntity: IssueItem, completion: @escaping (Result<IdData, NetworkError>) -> Void) {
-        NetworkService<IdData>.fetchData(
+    func sendNewIssue(_ newIssueEntity: IssueItem, completion: @escaping (Result<IssueidData, NetworkError>) -> Void) {
+        NetworkService<IssueidData>.fetchData(
             target: EditingIssueNetworkTarget.sendIssue(newIssue: newIssueEntity),
             urlSession: urlSession,
             completion: completion)
