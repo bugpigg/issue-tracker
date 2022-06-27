@@ -1,0 +1,6 @@
+aws:
+  s3:
+    accessKeyId: ${AWS_KEY_ID}
+    accessKeySecret: ${AWS_KEY_SECRET}
+    regionName: ${AWS_REGION_NAME}
+    bucketName: ${AWS_BUCKET_NAME}

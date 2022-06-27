@@ -2,13 +2,13 @@
 spring:
   profiles:
     active: dev-mysql
-    include: jwt,oauth,aws
 ---
 # profile group
 spring:
   profiles:
     group:
-      dev-mysql: "dev-mysql, local-log"
+      dev-mysql: "dev-mysql, local-log, jwt, oauth, aws"
+      deploy-mysql: "deploy-mysql, deploy-log, jwt, oauth, aws"
 ---
 # dev-mysql
 spring:
@@ -34,6 +34,23 @@ spring:
   redis:
     host: localhost
     port: 6379
+---
+# deploy-mysql
+spring:
+  config:
+    activate:
+      on-profile: deploy-mysql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PW}
+  redis:
+    host: localhost
+    port: 6379
+logging:
+  file:
+    path: ${LOG_FILE_PATH}
 ---
 # log-group
 spring:

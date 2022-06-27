@@ -1,0 +1,5 @@
+jwt:
+  token:
+    secret: ${JWT_SECRET}
+    accessTokenExpireTime: ${JWT_ACCESS_TOKEN_EXPIRE_TIME}
+    refreshTokenExpireTime: ${JWT_REFRESH_TOKEN_EXPIRE_TIME}
