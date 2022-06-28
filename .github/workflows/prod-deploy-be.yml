@@ -43,7 +43,7 @@ jobs:
           chmod +x ./scripts/env.sh
           ./scripts/env.sh > ./env
         shell: bash
-        env:
+        env: |
           DB_URL: ${{secrets.DB_URL}}
           DB_USER: ${{secrets.DB_USER}}
           DB_PW: ${{secrets.DB_PW}}
