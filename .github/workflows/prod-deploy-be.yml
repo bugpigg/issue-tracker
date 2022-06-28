@@ -39,7 +39,10 @@ jobs:
         working-directory: ${{env.WORKING_DIR}}
 
       - name: Docker Environmet Variable file
-        run: ./scripts/env.sh > ./env
+        run: |
+          chmod +x ./scripts/env.sh
+          ./scripts/env.sh > ./env
+        shell: bash
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: Set up Docker Buildx
