@@ -41,24 +41,25 @@ jobs:
       - name: Docker Environmet Variable file
         run: |
           chmod +x ./scripts/env.sh
-          ./scripts/env.sh > ./env
+          sh ./scripts/env.sh > ./env
+        shell: bash
         env:
-          DB_URL: ${{secrets.DB_URL}}
-          DB_USER: ${{secrets.DB_USER}}
-          DB_PW: ${{secrets.DB_PW}}
-          LOG_FILE_PATH: ${{secrets.LOG_FILE_PATH}}
-          GITHUB_CLIENT_ID: ${{secrets._GITHUB_CLIENT_ID}}
-          GITHUB_CLIENT_SECRET: ${{secrets._GITHUB_CLIENT_SECRET}}
-          GITHUB_REDIRECT_URL: ${{secrets._GITHUB_REDIRECT_URL}}
-          GITHUB_TOKEN_URL: ${{secrets._GITHUB_TOKEN_URL}}
-          GITHUB_USER_INFO_URL: ${{secrets._GITHUB_USER_INFO_URL}}
-          JWT_SECRET: ${{secrets.JWT_SECRET}}
-          JWT_ACCESS_TOKEN_EXPIRE_TIME: ${{secrets.JWT_ACCESS_TOKEN_EXPIRE_TIME}}
-          JWT_REFRESH_TOKEN_EXPIRE_TIME: ${{secrets.JWT_REFRESH_TOKEN_EXPIRE_TIME}}
-          AWS_KEY_ID: ${{secrets.AWS_KEY_ID}}
-          AWS_KEY_SECRET: ${{secrets.AWS_KEY_SECRET}}
-          AWS_REGION_NAME: ${{secrets.AWS_REGION_NAME}}
-          AWS_BUCKET_NAME: ${{secrets.AWS_BUCKET_NAME}}
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PW: ${{ secrets.DB_PW }}
+          LOG_FILE_PATH: ${{ secrets.LOG_FILE_PATH }}
+          GITHUB_CLIENT_ID: ${{ secrets._GITHUB_CLIENT_ID }}
+          GITHUB_CLIENT_SECRET: ${{ secrets._GITHUB_CLIENT_SECRET }}
+          GITHUB_REDIRECT_URL: ${{ secrets._GITHUB_REDIRECT_URL }}
+          GITHUB_TOKEN_URL: ${{ secrets._GITHUB_TOKEN_URL }}
+          GITHUB_USER_INFO_URL: ${{ secrets._GITHUB_USER_INFO_URL }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_ACCESS_TOKEN_EXPIRE_TIME: ${{ secrets.JWT_ACCESS_TOKEN_EXPIRE_TIME }}
+          JWT_REFRESH_TOKEN_EXPIRE_TIME: ${{ secrets.JWT_REFRESH_TOKEN_EXPIRE_TIME }}
+          AWS_KEY_ID: ${{ secrets.AWS_KEY_ID }}
+          AWS_KEY_SECRET: ${{ secrets.AWS_KEY_SECRET }}
+          AWS_REGION_NAME: ${{ secrets.AWS_REGION_NAME }}
+          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: Set up Docker Buildx
