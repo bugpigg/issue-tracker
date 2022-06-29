@@ -7,6 +7,7 @@ import com.team09.issue_tracker.exception.IssueNotFoundException;
 import com.team09.issue_tracker.issue.domain.Issue;
 import com.team09.issue_tracker.issue.domain.IssueAssignee;
 import com.team09.issue_tracker.issue.domain.IssueLabel;
+import com.team09.issue_tracker.issue.dto.IssueSearchRequestDto;
 import com.team09.issue_tracker.issue.dto.IssueUpdateRequestDto;
 import com.team09.issue_tracker.issue.dto.SelectableLabelMilestoneResponse;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
@@ -308,5 +309,25 @@ public class IssueService {
 		if (labelIds.size() > 0) {
 			issueValidateService.validateMyLabelIds(labelIds, memberId);
 		}
+	}
+
+	@Transactional(readOnly = true)
+	public List<IssueListResponseDto> findBySearchCondition(IssueSearchRequestDto searchRequestDto,
+		Long currentMemberId) {
+		searchRequestDto.setCurrentMemberId(currentMemberId);
+		searchRequestDto.addCurrentMemberToWriters(currentMemberId);
+		searchRequestDto.trimAndFormattingTitle();
+
+		List<Issue> issues = issueRepository.findBySearchCondition(searchRequestDto.isOpened(),
+			searchRequestDto.getCurrentMemberId(),
+			searchRequestDto.isCommentByMe(),
+			searchRequestDto.isAssignedToMe(),
+			searchRequestDto.getWriterId(),
+			searchRequestDto.getLabelId(),
+			searchRequestDto.getMilestoneId(),
+			searchRequestDto.getTitle());
+
+		return issues.stream()
+			.map(Issue::toListResponse).collect(Collectors.toUnmodifiableList());
 	}
 }

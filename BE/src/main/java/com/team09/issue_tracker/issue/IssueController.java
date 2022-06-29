@@ -1,6 +1,7 @@
 package com.team09.issue_tracker.issue;
 
 import com.team09.issue_tracker.common.CommonResponseDto;
+import com.team09.issue_tracker.issue.dto.IssueSearchRequestDto;
 import com.team09.issue_tracker.issue.dto.IssueUpdateRequestDto;
 import com.team09.issue_tracker.issue.dto.SelectableLabelMilestoneResponse;
 import com.team09.issue_tracker.issue.dto.IssueSaveRequestDto;
@@ -100,16 +101,10 @@ public class IssueController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping(";type=title")
-	public ResponseEntity<List<IssueListResponseDto>> findByTitle(
-		@RequestParam final String title) {
-		return ResponseEntity.ok().build();
-	}
-
-	@GetMapping(";type=filter")
+	@GetMapping("/search")
 	public ResponseEntity<List<IssueListResponseDto>> findBySearchCondition(
-		@ModelAttribute final String issueSearchDto) {
-		return ResponseEntity.ok().build();
+		@ModelAttribute final IssueSearchRequestDto issueSearchDto) {
+		return ResponseEntity.ok().body(issueService.findBySearchCondition(issueSearchDto, MEMBER_ID));
 	}
 
 	@PatchMapping
