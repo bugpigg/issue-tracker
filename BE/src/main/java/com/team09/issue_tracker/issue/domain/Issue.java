@@ -1,5 +1,6 @@
 package com.team09.issue_tracker.issue.domain;
 
+import com.team09.issue_tracker.comment.Comment;
 import com.team09.issue_tracker.common.BaseTimeEntity;
 import com.team09.issue_tracker.common.CommonResponseDto;
 import com.team09.issue_tracker.issue.dto.IssueDetailResponseDto;
@@ -48,6 +49,9 @@ public class Issue extends BaseTimeEntity {
 	private Milestone milestone;
 
 	private Long memberId;
+
+	@OneToMany(mappedBy = "issue", fetch = FetchType.LAZY)
+	private List<Comment> comments = new ArrayList<>();
 
 	@OneToMany(mappedBy = "issue", fetch = FetchType.LAZY)
 	private List<IssueLabel> issueLabels = new ArrayList<>();
