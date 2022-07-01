@@ -46,7 +46,7 @@ spring:
     username: ${DB_USER}
     password: ${DB_PW}
   redis:
-    host: localhost
+    host: 3.37.101.82
     port: 6379
 logging:
   file:
