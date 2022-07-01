@@ -21,13 +21,11 @@ public class IssueSearchRequestDto {
 	private List<Long> labelId;
 	private List<Long> milestoneId;
 
-	public void addCurrentMemberToWriters(Long currentMemberId) {
-		if (writtenByMe){
-			if (writerId == null) {
-				writerId = new ArrayList<>();
-			}
-			writerId.add(currentMemberId);
+	public void addMemberToWriters(Long memberId) {
+		if (writerId == null) {
+			writerId = new ArrayList<>();
 		}
+		writerId.add(memberId);
 	}
 
 	public void setTitle(String title) {

@@ -225,7 +225,7 @@ public class IssueService {
 	public List<IssueListResponseDto> findBySearchCondition(IssueSearchRequestDto searchRequestDto,
 		Long currentMemberId) {
 		searchRequestDto.setCurrentMemberId(currentMemberId);
-		searchRequestDto.addCurrentMemberToWriters(currentMemberId);
+		addCurrentMemberToWritersInIssueSearchRequestDto(searchRequestDto, currentMemberId);
 
 		List<Issue> issues = issueRepository.findBySearchCondition(searchRequestDto.isOpened(),
 			searchRequestDto.getCurrentMemberId(),
@@ -238,5 +238,12 @@ public class IssueService {
 
 		return issues.stream()
 			.map(Issue::toListResponse).collect(Collectors.toUnmodifiableList());
+	}
+
+	private void addCurrentMemberToWritersInIssueSearchRequestDto(IssueSearchRequestDto requestDto,
+		Long currentMemberId) {
+		if (requestDto.isWrittenByMe()) {
+			requestDto.addMemberToWriters(currentMemberId);
+		}
 	}
 }
