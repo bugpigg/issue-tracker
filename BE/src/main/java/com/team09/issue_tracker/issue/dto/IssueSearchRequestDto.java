@@ -30,9 +30,10 @@ public class IssueSearchRequestDto {
 		}
 	}
 
-	public void trimAndFormattingTitle() {
+	public void setTitle(String title) {
 		if (title != null) {
-			title = "%" + title.trim() + "%";
+			title = title.trim();
 		}
+		this.title = title;
 	}
 }

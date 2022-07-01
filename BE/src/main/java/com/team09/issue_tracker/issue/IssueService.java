@@ -226,7 +226,6 @@ public class IssueService {
 		Long currentMemberId) {
 		searchRequestDto.setCurrentMemberId(currentMemberId);
 		searchRequestDto.addCurrentMemberToWriters(currentMemberId);
-		searchRequestDto.trimAndFormattingTitle();
 
 		List<Issue> issues = issueRepository.findBySearchCondition(searchRequestDto.isOpened(),
 			searchRequestDto.getCurrentMemberId(),

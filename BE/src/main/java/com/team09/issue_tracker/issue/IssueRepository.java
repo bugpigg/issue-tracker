@@ -30,7 +30,7 @@ public interface IssueRepository extends JpaRepository<Issue, Long> {
 		+ "AND (coalesce(:writers, NULL) IS NULL OR I.memberId IN (:writers)) "
 		+ "AND (coalesce(:labels, NULL) IS NULL OR L.id IN (:labels)) "
 		+ "AND (coalesce(:milestones, NULL) IS NULL OR M.id IN (:milestones)) "
-		+ "AND (:title IS NULL OR I.title LIKE :title)"
+		+ "AND (:title IS NULL OR I.title LIKE %:title%)"
 	)
 	List<Issue> findBySearchCondition(@Param("opened") boolean opened,
 		@Param("currentMemberId") Long currentMemberId,
