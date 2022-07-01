@@ -60,6 +60,7 @@ jobs:
           AWS_KEY_SECRET: ${{ secrets.AWS_KEY_SECRET }}
           AWS_REGION_NAME: ${{ secrets.AWS_REGION_NAME }}
           AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+          SERVER_URL: ${{ secrets.SERVER_URL }}
         working-directory: ${{ env.WORKING_DIR }}
 
       - name: Set up Docker Buildx

@@ -34,7 +34,7 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
 	// webflux
-	compileOnly 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 	// redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
